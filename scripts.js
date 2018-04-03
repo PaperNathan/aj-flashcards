@@ -47,9 +47,11 @@ function combineVocab(en, cn) {
 
 function buildPDF(vocab) {
     let doc = new jsPDF('landscape');
-    let runTime = Math.ceil(vocab.length / 6);
+
     let keysArray = Object.keys(vocab),
         valuesArray = Object.values(vocab);
+
+    let runTime = Math.ceil(keysArray.length / 6);
 
     for (i=0; i<runTime; i++) {
         for (j=i; j<i+6; j++) {
@@ -60,14 +62,12 @@ function buildPDF(vocab) {
         }
     }
 
-    doc.output('save', 'Flash-Cards.pdf');
+    doc.output('save', 'Flash-Cards.pdf'); // Comment this out to stop it from saving every single time #LessonsLearned
     
 }
 
 function setsOfSix(doc, wordList, i) {
     let x, y;  // mm for A4
-
-    console.log(wordList);
 
     if (i < 3) {
         y = 50;
@@ -77,11 +77,13 @@ function setsOfSix(doc, wordList, i) {
         x = 50 + (99*(i-3)) - wordList[i].length;
     }
     
+    console.log(wordList[i]);  // Problem: Chinese words are logged correctly but aren't rendered properly on the pdf file.  English words are fine.
+
     doc.text(x, y, wordList[i]);
     
     if (i == 5) {
         doc.addPage();
     }
-    
+
     return doc;
 }
